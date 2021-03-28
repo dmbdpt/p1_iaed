@@ -7,8 +7,8 @@
 |  01   | Done :heavy_check_mark: | t l q  |
 |  02   | Done :heavy_check_mark: | t l q  |
 |  03   | Done :heavy_check_mark: |  n q   |
-|  05   |       :grimacing:       |        |
 |  04   |       :grimacing:       |  u q   |
+|  05   |       :grimacing:       |        |
 |  06   |       :grimacing:       |        |
 |  07   |       :grimacing:       |        |
 |  08   |       :grimacing:       |        |
