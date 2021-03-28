@@ -1,6 +1,10 @@
 # Projeto 1 - IAED
 
-##Right Now -> List(Errors)
+=============================
+
+## Right Now -> List(Errors)
+
+-----------------------------
 
 ON GOING:
 
