@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define DESCR_SIZE  51
-#define MAX_TASKS     10
-#define ACTIVITY_SIZE    10
-#define USER_SIZE    10
+#define DESCR_SIZE 51
+#define MAX_TASKS 10
+#define ACTIVITY_SIZE 10
+#define USER_SIZE 10
 #define DEFAULT_ACTIVITY 0
 
 int init_time = 0, nr_tasks = 0;
@@ -24,10 +24,12 @@ struct task
 struct task tasks[MAX_TASKS];
 struct task current;
 
-void add_task(){
+void add_task()
+{
     int i;
 
-    if (nr_tasks + 1 > MAX_TASKS){
+    if (nr_tasks + 1 > MAX_TASKS)
+    {
         printf("too many tasks\n");
         exit(1);
     }
@@ -35,10 +37,12 @@ void add_task(){
     scanf("%d", &current.e_duration);
     fgets(current.description, DESCR_SIZE, stdin);
 
-    for(i=0; i < nr_tasks; i++){
-        if (strcmp(tasks[i].description, current.description) == 0){
+    for (i = 0; i < nr_tasks; i++)
+    {
+        if (strcmp(tasks[i].description, current.description) == 0)
+        {
             printf("duplicate description\n");
-            exit(1);            
+            exit(1);
         }
     }
 
@@ -51,25 +55,35 @@ void add_task(){
     printf("task %d\n", current.identifier);
 }
 
-void list(){
-    int i, id = 0;
+void list()
+{
+    int i, id = 0, found;
     char ch;
     struct task current;
 
-    if((ch = getchar()) == ' '){
+    if ((ch = getchar()) == ' ')
+    {
         ch = getchar();
         while (scanf("%d", &id) != EOF)
         {
-            for(i = 0; i < MAX_TASKS; i++){
-                if(tasks[i].identifier == id){
+            found = 0;
+            for (i = 0; i < MAX_TASKS; i++)
+            {
+                if (tasks[i].identifier == id)
+                {
                     current = tasks[i];
-                    printf("%d %s #%d %s", current.identifier, current.activity, 
-                    current.e_duration, current.description);
+                    printf("%d %s #%d %s", current.identifier, current.activity,
+                           current.e_duration, current.description);
+                    found++;
                     break;
                 }
             }
+            if (found == 0){
+                printf("%d: no such task\n", id);
+            }
             ch = getchar();
-            if(ch == ']'){
+            if (ch == ']')
+            {
                 scanf("%c", &ch);
                 break;
             }
@@ -77,16 +91,19 @@ void list(){
         }
     }
 
-    else{
-        for(i = 0; i < nr_tasks; i++){
+    else
+    {
+        for (i = 0; i < nr_tasks; i++)
+        {
             current = tasks[i];
             printf("%d %s #%d %s\n", current.identifier, current.activity, current.e_duration,
-                    current.description);
+                   current.description);
         }
     }
 }
 
-void menu(){
+void menu()
+{
 
     printf("q	termina o programa\n\
 t	adiciona uma nova tarefa ao sistema\n\
@@ -97,10 +114,9 @@ m	move uma tarefa de uma atividade para outra\n\
 d	lista todas as tarefas que estejam numa dada atividade\n\
 a	adiciona uma atividade ou lista todas as atividades\n\n");
 
-
     option = getchar();
 
-/*
+    /*
 q	termina o programa
 t	adiciona uma nova tarefa ao sistema
 l	lista as tarefas
@@ -110,31 +126,33 @@ m	move uma tarefa de uma atividade para outra
 d	lista todas as tarefas que estejam numa dada atividade
 a	adiciona uma atividade ou lista todas as atividades
 */
-    switch (option){    
-        case 'q':
-            exit(0);
-            break;
-        case 't':
-            add_task();
-            break;
-        case 'l':
-            list();
-            break;
-        case 'n':
-            break;
-        case 'u':
-            break;
-        case 'm':
-            break;
-        case 'd':
-            break;
-        case 'a':
-            break;
+    switch (option)
+    {
+    case 'q':
+        exit(0);
+        break;
+    case 't':
+        add_task();
+        break;
+    case 'l':
+        list();
+        break;
+    case 'n':
+        break;
+    case 'u':
+        break;
+    case 'm':
+        break;
+    case 'd':
+        break;
+    case 'a':
+        break;
     }
     menu();
 }
 
-int main(){
+int main()
+{
 
     menu();
 
