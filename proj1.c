@@ -7,8 +7,9 @@
 #define ACTIVITY_SIZE 10
 #define USER_SIZE 10
 #define DEFAULT_ACTIVITY 0
+#define INIT_TIME 0
 
-int init_time = 0, nr_tasks = 0;
+int time, nr_tasks = 0;
 char option, activities[][ACTIVITY_SIZE] = {"TO DO", "MEH", "MEH2"};
 
 struct task
@@ -96,6 +97,14 @@ void list()
     }
 }
 
+void step_forward(){
+    int dur = 0;
+    if(scanf("%d", &dur) == 1 && dur > 0){
+        time += dur;
+    }
+    printf("%d\n", time);
+}
+
 void menu()
 {
     option = getchar();
@@ -122,6 +131,7 @@ a	adiciona uma atividade ou lista todas as atividades
         list();
         break;
     case 'n':
+        step_forward();
         break;
     case 'u':
         break;
@@ -137,7 +147,7 @@ a	adiciona uma atividade ou lista todas as atividades
 
 int main()
 {
-
+    time = INIT_TIME;
     menu();
 
     return 0;

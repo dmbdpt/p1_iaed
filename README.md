@@ -2,18 +2,18 @@
 
 ## Right Now -> Tempos
 
-| Teste | Estado | Função |
-| :---: | :----: | :----: |
-|  01   |  Done  | t l q  |
-|  02   |  Done  | t l q  |
-|  03   |        |  n q   |
-|  04   |        |        |
-|  05   |        |        |
-|  06   |        |        |
-|  07   |        |        |
-|  08   |        |        |
-|  09   |        |        |
-|  10   |        |        |
+| Teste |         Estado          | Função |
+| :---: | :---------------------: | :----: |
+|  01   | Done :heavy_check_mark: | t l q  |
+|  02   | Done :heavy_check_mark: | t l q  |
+|  03   | Done :heavy_check_mark: |  n q   |
+|  05   |       :grimacing:       |        |
+|  04   |       :grimacing:       |  u q   |
+|  06   |       :grimacing:       |        |
+|  07   |       :grimacing:       |        |
+|  08   |       :grimacing:       |        |
+|  09   |       :grimacing:       |        |
+|  10   |       :grimacing:       |        |
 
 ON GOING:
 
