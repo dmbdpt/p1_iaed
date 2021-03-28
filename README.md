@@ -20,7 +20,7 @@ ON GOING:
 - [x] Menu
 - [x] Add-task
 - [x] List
-- [ ] Tempos
+- [x] Tempos
 - [ ] Utilizadores
 - [ ] Atividades
 - [ ] Gestão
@@ -30,8 +30,8 @@ TESTING:
 
 - [x] Menu
 - [x] Add-task
-- [ ] List
-- [ ] Tempos
+- [x] List
+- [x] Tempos
 - [ ] Utilizadores
 - [ ] Atividades
 - [ ] Gestão
