@@ -101,8 +101,11 @@ void step_forward(){
     int dur = 0;
     if(scanf("%d", &dur) == 1 && dur > 0){
         time += dur;
+        printf("%d\n", time);
     }
-    printf("%d\n", time);
+    else{
+        printf("invalid time\n");
+    }
 }
 
 void menu()
