@@ -34,7 +34,7 @@ void add_task()
         exit(1);
     }
 
-    scanf("%d", &current.e_duration);
+    scanf(" %d ", &current.e_duration);
     fgets(current.description, DESCR_SIZE, stdin);
 
     for (i = 0; i < nr_tasks; i++)
@@ -72,7 +72,7 @@ void list()
                 if (tasks[i].identifier == id)
                 {
                     current = tasks[i];
-                    printf("%d %s #%d %s", current.identifier, current.activity,
+                    printf("%d %s #%d %s\n", current.identifier, current.activity,
                            current.e_duration, current.description);
                     found++;
                     break;
@@ -96,24 +96,16 @@ void list()
         for (i = 0; i < nr_tasks; i++)
         {
             current = tasks[i];
-            printf("%d %s #%d %s\n", current.identifier, current.activity, current.e_duration,
+            printf("%d %s #%d %s", current.identifier, current.activity, current.e_duration,
                    current.description);
+            if(i < nr_tasks - 1){
+            }
         }
     }
 }
 
 void menu()
 {
-
-    printf("q	termina o programa\n\
-t	adiciona uma nova tarefa ao sistema\n\
-l	lista as tarefas\n\
-n	avança o tempo do sistema\n\
-u	adiciona um utilizador ou lista todos os utilizadores\n\
-m	move uma tarefa de uma atividade para outra\n\
-d	lista todas as tarefas que estejam numa dada atividade\n\
-a	adiciona uma atividade ou lista todas as atividades\n\n");
-
     option = getchar();
 
     /*
