@@ -3,12 +3,12 @@
 #include <string.h>
 
 #define DESCR_SIZE  51
-#define NR_TASKS     10
+#define MAX_TASKS     10
 #define ACTIVITY_SIZE    10
 #define USER_SIZE    10
 #define DEFAULT_ACTIVITY 0
 
-int init_time = 0, active_tasks = 0;
+int init_time = 0, nr_tasks = 0;
 char option, activities[][ACTIVITY_SIZE] = {"TO DO", "MEH", "MEH2"};
 
 struct task
@@ -21,19 +21,32 @@ struct task
     int t_beginning;
 };
 
-struct task tasks[NR_TASKS];
+struct task tasks[MAX_TASKS];
+struct task current;
 
 void add_task(){
+    int i;
 
-    struct task current;
+    if (nr_tasks + 1 > MAX_TASKS){
+        printf("too many tasks\n");
+        exit(1);
+    }
 
     scanf("%d", &current.e_duration);
     fgets(current.description, DESCR_SIZE, stdin);
+
+    for(i=0; i < nr_tasks; i++){
+        if (strcmp(tasks[i].description, current.description) == 0){
+            printf("duplicate description\n");
+            exit(1);            
+        }
+    }
+
     strcpy(current.activity, activities[DEFAULT_ACTIVITY]);
 
-    current.identifier = active_tasks + 1;
-    tasks[active_tasks] = current;
-    active_tasks++;
+    current.identifier = nr_tasks + 1;
+    tasks[nr_tasks] = current;
+    nr_tasks++;
 
     printf("task %d\n", current.identifier);
 }
@@ -42,7 +55,7 @@ void list(){
     int i;
     struct task current;
 
-    for(i = 0; i < active_tasks; i++){
+    for(i = 0; i < nr_tasks; i++){
         current = tasks[i];
         printf("%d %s #%d %s\n", current.identifier, current.activity, current.e_duration,
                 current.description);
