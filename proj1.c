@@ -56,9 +56,7 @@ void list(){
     char ch;
     struct task current;
 
-    ch = getchar();
-
-    if(ch == ' '){
+    if((ch = getchar()) == ' '){
         ch = getchar();
         while (scanf("%d", &id) != EOF)
         {
@@ -72,6 +70,7 @@ void list(){
             }
             ch = getchar();
             if(ch == ']'){
+                scanf("%c", &ch);
                 break;
             }
             scanf("%d", &id);
@@ -81,7 +80,7 @@ void list(){
     else{
         for(i = 0; i < nr_tasks; i++){
             current = tasks[i];
-            printf("%d %s #%d %s", current.identifier, current.activity, current.e_duration,
+            printf("%d %s #%d %s\n", current.identifier, current.activity, current.e_duration,
                     current.description);
         }
     }
@@ -99,7 +98,7 @@ d	lista todas as tarefas que estejam numa dada atividade\n\
 a	adiciona uma atividade ou lista todas as atividades\n\n");
 
 
-    scanf("%g", option);
+    option = getchar();
 
 /*
 q	termina o programa
@@ -130,8 +129,6 @@ a	adiciona uma atividade ou lista todas as atividades
         case 'd':
             break;
         case 'a':
-            break;
-        default:
             break;
     }
     menu();
