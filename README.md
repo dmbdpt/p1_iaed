@@ -1,24 +1,35 @@
 # Projeto 1 - IAED
 
-TO DO:
-- [] Menu
-- [] Add-task
-- [] List
-- [] Tempos
-- [] Utilizadores
-- [] Atividades
-- [] Gestão
-- [] Detalhes
+ON GOING:
+
+- [X] Menu
+- [X] Add-task
+- [X] List
+- [ ] Tempos
+- [ ] Utilizadores
+- [ ] Atividades
+- [ ] Gestão
+- [ ] Detalhes
 
 
-################
+TESTING:
 
-- [ ] Mercury
-- [x] Venus
-- [x] Earth (Orbit/Moon)
-- [x] Mars
-- [ ] Jupiter
-- [ ] Saturn
-- [ ] Uranus
-- [ ] Neptune
-- [ ] Comet Haley
+- [X] Menu
+- [X] Add-task
+- [ ] List
+- [ ] Tempos
+- [ ] Utilizadores
+- [ ] Atividades
+- [ ] Gestão
+- [ ] Detalhes
+
+FINISHED:
+
+- [ ] Menu
+- [ ] Add-task
+- [ ] List
+- [ ] Tempos
+- [ ] Utilizadores
+- [ ] Atividades
+- [ ] Gestão
+- [ ] Detalhes
