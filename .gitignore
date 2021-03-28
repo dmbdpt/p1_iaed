@@ -336,3 +336,4 @@ ASALocalRun/
 
 # TESTES
 tests/
+.vscode/
