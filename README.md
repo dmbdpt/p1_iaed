@@ -1,5 +1,7 @@
 # Projeto 1 - IAED
 
+##Right Now -> List(Errors)
+
 ON GOING:
 
 - [X] Menu
