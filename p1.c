@@ -52,13 +52,38 @@ void add_task(){
 }
 
 void list(){
-    int i;
+    int i, id = 0;
+    char ch;
     struct task current;
 
-    for(i = 0; i < nr_tasks; i++){
-        current = tasks[i];
-        printf("%d %s #%d %s\n", current.identifier, current.activity, current.e_duration,
-                current.description);
+    ch = getchar();
+
+    if(ch == ' '){
+        ch = getchar();
+        while (scanf("%d", &id) != EOF)
+        {
+            for(i = 0; i < MAX_TASKS; i++){
+                if(tasks[i].identifier == id){
+                    current = tasks[i];
+                    printf("%d %s #%d %s", current.identifier, current.activity, 
+                    current.e_duration, current.description);
+                    break;
+                }
+            }
+            ch = getchar();
+            if(ch == ']'){
+                break;
+            }
+            scanf("%d", &id);
+        }
+    }
+
+    else{
+        for(i = 0; i < nr_tasks; i++){
+            current = tasks[i];
+            printf("%d %s #%d %s", current.identifier, current.activity, current.e_duration,
+                    current.description);
+        }
     }
 }
 
@@ -71,10 +96,10 @@ n	avança o tempo do sistema\n\
 u	adiciona um utilizador ou lista todos os utilizadores\n\
 m	move uma tarefa de uma atividade para outra\n\
 d	lista todas as tarefas que estejam numa dada atividade\n\
-a	adiciona uma atividade ou lista todas as atividades\n");
+a	adiciona uma atividade ou lista todas as atividades\n\n");
 
 
-    option = getchar();
+    scanf("%g", option);
 
 /*
 q	termina o programa
@@ -88,6 +113,7 @@ a	adiciona uma atividade ou lista todas as atividades
 */
     switch (option){    
         case 'q':
+            exit(0);
             break;
         case 't':
             add_task();
@@ -105,9 +131,10 @@ a	adiciona uma atividade ou lista todas as atividades
             break;
         case 'a':
             break;
+        default:
+            break;
     }
-    if(option != 'q')
-        menu();
+    menu();
 }
 
 int main(){
