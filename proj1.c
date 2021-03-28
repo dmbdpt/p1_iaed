@@ -63,8 +63,7 @@ void list()
 
     if ((ch = getchar()) == ' ')
     {
-        ch = getchar();
-        while (scanf("%d", &id) != EOF)
+        while (scanf(" %d", &id))
         {
             found = 0;
             for (i = 0; i < MAX_TASKS; i++)
@@ -72,7 +71,7 @@ void list()
                 if (tasks[i].identifier == id)
                 {
                     current = tasks[i];
-                    printf("%d %s #%d %s\n", current.identifier, current.activity,
+                    printf("%d %s #%d %s", current.identifier, current.activity,
                            current.e_duration, current.description);
                     found++;
                     break;
@@ -81,13 +80,6 @@ void list()
             if (found == 0){
                 printf("%d: no such task\n", id);
             }
-            ch = getchar();
-            if (ch == ']')
-            {
-                scanf("%c", &ch);
-                break;
-            }
-            scanf("%d", &id);
         }
     }
 
