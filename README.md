@@ -1,19 +1,19 @@
 # Projeto 1 - IAED
 
-## Right Now -> Tempos
+## Right Now -> Users
 
-| Teste |          Estado          | Função |
-| :---: | :----------------------: | :----: |
-|  01   | Done :heavy_check_mark:  | t l q  |
-|  02   | Done :heavy_check_mark:  | t l q  |
-|  03   | Done :heavy_check_mark:  |  n q   |
-|  04   | Done :heavy_check_mark:  |  u q   |
-|  05   | segmentation fault :cry: |  u q   |
-|  06   |       :grimacing:        |        |
-|  07   |       :grimacing:        |        |
-|  08   |       :grimacing:        |        |
-|  09   |       :grimacing:        |        |
-|  10   |       :grimacing:        |        |
+| Teste |         Estado          |  Função   |
+| :---: | :---------------------: | :-------: |
+|  01   | Done :heavy_check_mark: |   t l q   |
+|  02   | Done :heavy_check_mark: |   t l q   |
+|  03   | Done :heavy_check_mark: |    n q    |
+|  04   | Done :heavy_check_mark: |    u q    |
+|  05   | Done :heavy_check_mark: |    u q    |
+|  06   |       :grimacing:       | t u n m q |
+|  07   |       :grimacing:       |           |
+|  08   |       :grimacing:       |           |
+|  09   |       :grimacing:       |           |
+|  10   |       :grimacing:       |           |
 
 ON GOING:
 

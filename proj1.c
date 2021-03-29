@@ -101,7 +101,9 @@ void list_tasks()
 void step_forward()
 {
     int dur = 0;
-    if (scanf("%d", &dur) == 1 && dur > 0)
+    char end;
+
+    if (scanf("%d%c", &dur, &end) == 2 && end == '\n' && dur > 0)
     {
         time += dur;
         printf("%d\n", time);
@@ -124,14 +126,24 @@ void list_users()
 void add_user()
 {
     char user[MAX_L_USERS];
+    int i;
 
     if (nr_users < MAX_USERS)
     {
         if (getchar() == ' ')
         {
             fscanf(stdin, "%s", user);
-            strcpy(users[nr_users], user);
+            for (i = 0; i < nr_users; i++)
+            {
+                if(!strcmp(user, users[i])){
+                    printf("user already exists\n");
+                    exit(1);
+                }
+            }
+
+                strcpy(users[nr_users], user);
             nr_users++;
+
             if (nr_users != 1)
             {
                 list_users();
@@ -142,6 +154,10 @@ void add_user()
     {
         printf("too many users\n");
     }
+}
+
+void move_task()
+{
 }
 
 void menu()
