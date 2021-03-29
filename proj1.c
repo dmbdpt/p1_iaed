@@ -94,9 +94,6 @@ void list_tasks()
             current = tasks[i];
             printf("%d %s #%d %s", current.identifier, current.activity, current.e_duration,
                    current.description);
-            if (i < nr_tasks - 1)
-            {
-            }
         }
     }
 }
@@ -126,11 +123,20 @@ void list_users()
 
 void add_user()
 {
+    char user[MAX_L_USERS];
+
     if (nr_users < MAX_USERS)
     {
-        scanf(" %s", users[nr_users]);
-        nr_users++;
-        list_users();
+        if (getchar() == ' ')
+        {
+            fscanf(stdin, "%s", user);
+            strcpy(users[nr_users], user);
+            nr_users++;
+            if (nr_users != 1)
+            {
+                list_users();
+            }
+        }
     }
     else
     {

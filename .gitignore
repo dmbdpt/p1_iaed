@@ -338,3 +338,4 @@ ASALocalRun/
 .vscode/
 proj1
 a.out
+*.diff
