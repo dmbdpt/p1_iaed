@@ -8,9 +8,11 @@
 #define USER_SIZE 10
 #define DEFAULT_ACTIVITY 0
 #define INIT_TIME 0
+#define MAX_USERS 50
+#define MAX_L_USERS 20
 
-int time, nr_tasks = 0;
-char option, activities[][ACTIVITY_SIZE] = {"TO DO", "MEH", "MEH2"};
+int time, nr_tasks = 0, nr_users = 0;
+char option, activities[][ACTIVITY_SIZE] = {"TO DO", "MEH", "MEH2"}, users[MAX_USERS][MAX_L_USERS];
 
 struct task
 {
@@ -56,7 +58,7 @@ void add_task()
     printf("task %d\n", current.identifier);
 }
 
-void list()
+void list_tasks()
 {
     int i, id = 0, found;
     char ch;
@@ -78,7 +80,8 @@ void list()
                     break;
                 }
             }
-            if (found == 0){
+            if (found == 0)
+            {
                 printf("%d: no such task\n", id);
             }
         }
@@ -91,20 +94,47 @@ void list()
             current = tasks[i];
             printf("%d %s #%d %s", current.identifier, current.activity, current.e_duration,
                    current.description);
-            if(i < nr_tasks - 1){
+            if (i < nr_tasks - 1)
+            {
             }
         }
     }
 }
 
-void step_forward(){
+void step_forward()
+{
     int dur = 0;
-    if(scanf("%d", &dur) == 1 && dur > 0){
+    if (scanf("%d", &dur) == 1 && dur > 0)
+    {
         time += dur;
         printf("%d\n", time);
     }
-    else{
+    else
+    {
         printf("invalid time\n");
+    }
+}
+
+void list_users()
+{
+    int i = 0;
+    for (i = 0; i < nr_users; i++)
+    {
+        printf("%s\n", users[i]);
+    }
+}
+
+void add_user()
+{
+    if (nr_users < MAX_USERS)
+    {
+        scanf(" %s", users[nr_users]);
+        nr_users++;
+        list_users();
+    }
+    else
+    {
+        printf("too many users\n");
     }
 }
 
@@ -131,12 +161,13 @@ a	adiciona uma atividade ou lista todas as atividades
         add_task();
         break;
     case 'l':
-        list();
+        list_tasks();
         break;
     case 'n':
         step_forward();
         break;
     case 'u':
+        add_user();
         break;
     case 'm':
         break;
