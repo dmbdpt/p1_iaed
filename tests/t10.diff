@@ -1,0 +1,51 @@
+1d0
+< user
+4,5d2
+< user
+< ser
+7,10c4
+< 1 TO DO #1 proj
+< user
+< ser
+< ser
+---
+> 1 IN PROGRESS #1 proj
+12,21c6,8
+< user
+< ser
+< ser
+< ser
+< 1 TO DO #1 proj
+< user
+< ser
+< ser
+< ser
+< ser
+---
+> 1 3 proj
+> duration=5 slack=4
+> 1 DONE #1 proj
+23,29c10,11
+< user
+< ser
+< ser
+< ser
+< ser
+< ser
+< 1 TO DO #1 proj
+---
+> 1 DEBUG #1 proj
+> 1 3 proj
+31,38c13,15
+< user
+< ser
+< ser
+< ser
+< ser
+< ser
+< ser
+< 1 TO DO #1 proj
+---
+> duration=10 slack=9
+> 1 3 proj
+> 1 DONE #1 proj

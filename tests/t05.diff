@@ -1,0 +1,14 @@
+6d5
+< pedro
+12,16c11,15
+< 1 TO DO #12 análise de requisitos
+< 2 TO DO #8 desenho
+< 3 TO DO #34 realização
+< 4 TO DO #24 teste
+< 5 TO DO #17 instalação
+---
+> 1 IN PROGRESS #12 análise de requisitos
+> 2 IN PROGRESS #8 desenho
+> 5 IN PROGRESS #17 instalação
+> 3 IN PROGRESS #34 realização
+> 4 IN PROGRESS #24 teste
