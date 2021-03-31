@@ -33,7 +33,7 @@ TESTING:
 - [x] List
 - [x] Tempos
 - [x] Utilizadores
-- [ ] Atividades
+- [x] Atividades
 - [ ] Gestão
 - [ ] Detalhes
 
