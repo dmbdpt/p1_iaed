@@ -86,7 +86,7 @@ void add_task()
     if (nr_tasks + 1 > MAX_TASKS)
     {
         printf("too many tasks\n");
-        exit(1);
+        return;
     }
 
     scanf(" %d ", &current.e_duration);
@@ -97,7 +97,7 @@ void add_task()
         if (strcmp(tasks[i].description, current.description) == 0)
         {
             printf("duplicate description\n");
-            exit(1);
+            return;
         }
     }
 
@@ -191,7 +191,7 @@ void add_user()
                 if (!strcmp(user, users[i]))
                 {
                     printf("user already exists\n");
-                    exit(1);
+                    return;
                 }
             }
 
@@ -222,7 +222,7 @@ void move_task()
     if (!strcmp(activity, DEFAULT_ACTIVITY))
     {
         printf("task already started\n");
-        exit(1);
+        return;
     }
 
     for (i = 0; i < nr_activities; i++)
@@ -236,7 +236,7 @@ void move_task()
     if (found == 0)
     {
         printf("no such activity\n");
-        exit(1);
+        return;
     }
 
     found = 0;
@@ -252,7 +252,7 @@ void move_task()
     if (found == 0)
     {
         printf("no such user\n");
-        exit(1);
+        return;
     }
 
     found = 0;
@@ -270,7 +270,7 @@ void move_task()
     if (found == 0)
     {
         printf("no such task\n");
-        exit(1);
+        return;
     }
 
     strcpy(tasks[act].user, user);
@@ -302,8 +302,7 @@ a	adiciona uma atividade ou lista todas as atividades
     switch (option)
     {
     case 'q':
-        exit(0);
-        break;
+        return;
     case 't':
         add_task();
         break;
