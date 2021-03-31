@@ -1,19 +1,19 @@
 # Projeto 1 - IAED
 
-## Right Now -> Users
+## Right Now -> ACtivities
 
-| Teste |         Estado          |  Função   |
-| :---: | :---------------------: | :-------: |
-|  01   | Done :heavy_check_mark: |   t l q   |
-|  02   | Done :heavy_check_mark: |   t l q   |
-|  03   | Done :heavy_check_mark: |    n q    |
-|  04   | Done :heavy_check_mark: |    u q    |
-|  05   | Done :heavy_check_mark: |    u q    |
-|  06   |       :grimacing:       | t u n m q |
-|  07   |       :grimacing:       |           |
-|  08   |       :grimacing:       |           |
-|  09   |       :grimacing:       |           |
-|  10   |       :grimacing:       |           |
+| Teste |         Estado          |   Função    |
+| :---: | :---------------------: | :---------: |
+|  01   | Done :heavy_check_mark: |    t l q    |
+|  02   | Done :heavy_check_mark: |    t l q    |
+|  03   | Done :heavy_check_mark: |     n q     |
+|  04   | Done :heavy_check_mark: |     u q     |
+|  05   | Done :heavy_check_mark: |     u q     |
+|  06   | Done :heavy_check_mark: |  t u n m q  |
+|  07   |       :grimacing:       | t u m n q d |
+|  08   |       :grimacing:       |             |
+|  09   |       :grimacing:       |             |
+|  10   |       :grimacing:       |             |
 
 ON GOING:
 
@@ -22,7 +22,7 @@ ON GOING:
 - [x] List
 - [x] Tempos
 - [x] Utilizadores
-- [ ] Atividades
+- [x] Atividades
 - [ ] Gestão
 - [ ] Detalhes
 
@@ -32,7 +32,7 @@ TESTING:
 - [x] Add-task
 - [x] List
 - [x] Tempos
-- [ ] Utilizadores
+- [x] Utilizadores
 - [ ] Atividades
 - [ ] Gestão
 - [ ] Detalhes

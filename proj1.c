@@ -4,15 +4,16 @@
 
 #define DESCR_SIZE 51
 #define MAX_TASKS 10
-#define ACTIVITY_SIZE 10
+#define ACTIVITY_SIZE 20
 #define USER_SIZE 10
-#define DEFAULT_ACTIVITY 0
+#define DEFAULT_ACTIVITY "TO DO"
+#define FINAL_ACTIVITY "DONE"
 #define INIT_TIME 0
 #define MAX_USERS 50
 #define MAX_L_USERS 20
 
 int time, nr_tasks = 0, nr_users = 0, nr_activities = 3;
-char option, activities[][ACTIVITY_SIZE] = {"TO DO", "MEH", "MEH2"}, users[MAX_USERS][MAX_L_USERS];
+char option, activities[][ACTIVITY_SIZE] = {"TO DO", "IN PROGRESS", "DONE"}, users[MAX_USERS][MAX_L_USERS];
 
 struct task
 {
@@ -32,7 +33,6 @@ void coloca_pos(struct task current)
     int i = 0, c = 0, state = 0;
     struct task new_tasks[MAX_TASKS];
 
-    
     for (i = 0; i <= nr_tasks; i++)
     {
         if (state == 0)
@@ -48,7 +48,6 @@ void coloca_pos(struct task current)
                 {
                     c++;
                     i--;
-                    /*new_tasks[i] = tasks[i];*/
                 }
                 else if (tasks[i].description[c] > current.description[c])
                 {
@@ -82,7 +81,7 @@ void coloca_pos(struct task current)
 
 void add_task()
 {
-    int i, pos;
+    int i;
 
     if (nr_tasks + 1 > MAX_TASKS)
     {
@@ -102,7 +101,7 @@ void add_task()
         }
     }
 
-    strcpy(current.activity, activities[DEFAULT_ACTIVITY]);
+    strcpy(current.activity, DEFAULT_ACTIVITY);
 
     current.identifier = nr_tasks + 1;
     coloca_pos(current);
@@ -213,23 +212,76 @@ void add_user()
 
 void move_task()
 {
-    int id, i /*, act*/;
+    int id, i, found = 0, act, duration, slack;
     char user[MAX_L_USERS], activity[ACTIVITY_SIZE];
-    scanf("%d %s %s", &id, user, activity);
+
+    scanf("%d %s ", &id, user);
+    fgets(activity, ACTIVITY_SIZE, stdin);
+    activity[strlen(activity) - 1] = '\0';  
+
+    if (!strcmp(activity, DEFAULT_ACTIVITY))
+    {
+        printf("task already started\n");
+        exit(1);
+    }
+
     for (i = 0; i < nr_activities; i++)
     {
-        if (strcmp(activity, activities[i]))
+        if (!strcmp(activity, activities[i]))
         {
-            /*act = i;*/
+            found = 1;
         }
     }
+
+    if (found == 0)
+    {
+        printf("no such activity\n");
+        exit(1);
+    }
+
+    found = 0;
+
+    for (i = 0; i < nr_users; i++)
+    {
+        if (!strcmp(user, users[i]))
+        {
+            found = 1;
+        }
+    }
+
+    if (found == 0)
+    {
+        printf("no such user\n");
+        exit(1);
+    }
+
+    found = 0;
+
     for (i = 0; i < nr_tasks; i++)
     {
         if (id == tasks[i].identifier)
         {
-            current = tasks[i];
-            strcpy(current.user, user);
+            act = i;
+            found++;
+            break;
         }
+    }
+
+    if (found == 0)
+    {
+        printf("no such task\n");
+        exit(1);
+    }
+
+    strcpy(tasks[act].user, user);
+    strcpy(tasks[act].activity, activity);
+
+
+    if (!strcmp(activity, FINAL_ACTIVITY))
+    {
+        duration = time - current.t_beginning;
+        slack = current.e_duration - duration;
+        printf("duration=%d slack=%d\n", duration, slack);
     }
 }
 
