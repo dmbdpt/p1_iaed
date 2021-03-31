@@ -27,37 +27,55 @@ struct task
 struct task tasks[MAX_TASKS];
 struct task current;
 
-void coloca_pos(struct task current){
+void coloca_pos(struct task current)
+{
     int i = 0, c = 0, state = 0;
     struct task new_tasks[MAX_TASKS];
 
-    new_tasks[0] = current;
-
-    for (i = 0; i < nr_tasks; i++){
-        if (state == 0){
-            if(tasks[i].description[c] == current.description[c]){
-                c++;
-                i--;
-                /*new_tasks[i] = tasks[i];*/
+    
+    for (i = 0; i <= nr_tasks; i++)
+    {
+        if (state == 0)
+        {
+            if (i < nr_tasks)
+            {
+                if (tasks[i].description[c] < current.description[c])
+                {
+                    c = 0;
+                    new_tasks[i] = tasks[i];
+                }
+                else if (tasks[i].description[c] == current.description[c])
+                {
+                    c++;
+                    i--;
+                    /*new_tasks[i] = tasks[i];*/
+                }
+                else if (tasks[i].description[c] > current.description[c])
+                {
+                    new_tasks[i] = current;
+                    state = 1;
+                    i--;
+                }
+                else
+                {
+                    new_tasks[i] = tasks[i];
+                    i++;
+                    new_tasks[i] = current;
+                    state = 1;
+                }
             }
-            else if (tasks[i].description[c] > current.description[c])
+            else
             {
                 new_tasks[i] = current;
-                state = 1;
-                i--;
-            }
-            else{
-                new_tasks[i] = tasks[i];
-                i++;
-                new_tasks[i] = current;
-                state = 1;
             }
         }
-        else{
+        else
+        {
             new_tasks[i + 1] = tasks[i];
         }
     }
-    for (i = 0; i <= nr_tasks; i++){
+    for (i = 0; i <= nr_tasks; i++)
+    {
         tasks[i] = new_tasks[i];
     }
 }
@@ -195,13 +213,14 @@ void add_user()
 
 void move_task()
 {
-    int id, i/*, act*/;
+    int id, i /*, act*/;
     char user[MAX_L_USERS], activity[ACTIVITY_SIZE];
     scanf("%d %s %s", &id, user, activity);
     for (i = 0; i < nr_activities; i++)
     {
-        if(strcmp(activity, activities[i])){
-            /*act = i;*/  
+        if (strcmp(activity, activities[i]))
+        {
+            /*act = i;*/
         }
     }
     for (i = 0; i < nr_tasks; i++)
