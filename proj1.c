@@ -11,7 +11,7 @@
 #define MAX_USERS 50
 #define MAX_L_USERS 20
 
-int time, nr_tasks = 0, nr_users = 0;
+int time, nr_tasks = 0, nr_users = 0, nr_activities = 3;
 char option, activities[][ACTIVITY_SIZE] = {"TO DO", "MEH", "MEH2"}, users[MAX_USERS][MAX_L_USERS];
 
 struct task
@@ -27,9 +27,44 @@ struct task
 struct task tasks[MAX_TASKS];
 struct task current;
 
+void coloca_pos(struct task current){
+    int i = 0, c = 0, state = 0;
+    struct task new_tasks[MAX_TASKS];
+
+    new_tasks[0] = current;
+
+    for (i = 0; i < nr_tasks; i++){
+        if (state == 0){
+            if(tasks[i].description[c] == current.description[c]){
+                c++;
+                i--;
+                /*new_tasks[i] = tasks[i];*/
+            }
+            else if (tasks[i].description[c] > current.description[c])
+            {
+                new_tasks[i] = current;
+                state = 1;
+                i--;
+            }
+            else{
+                new_tasks[i] = tasks[i];
+                i++;
+                new_tasks[i] = current;
+                state = 1;
+            }
+        }
+        else{
+            new_tasks[i + 1] = tasks[i];
+        }
+    }
+    for (i = 0; i <= nr_tasks; i++){
+        tasks[i] = new_tasks[i];
+    }
+}
+
 void add_task()
 {
-    int i;
+    int i, pos;
 
     if (nr_tasks + 1 > MAX_TASKS)
     {
@@ -52,7 +87,8 @@ void add_task()
     strcpy(current.activity, activities[DEFAULT_ACTIVITY]);
 
     current.identifier = nr_tasks + 1;
-    tasks[nr_tasks] = current;
+    coloca_pos(current);
+    /*tasks[nr_tasks] = current;*/
     nr_tasks++;
 
     printf("task %d\n", current.identifier);
@@ -135,13 +171,14 @@ void add_user()
             fscanf(stdin, "%s", user);
             for (i = 0; i < nr_users; i++)
             {
-                if(!strcmp(user, users[i])){
+                if (!strcmp(user, users[i]))
+                {
                     printf("user already exists\n");
                     exit(1);
                 }
             }
 
-                strcpy(users[nr_users], user);
+            strcpy(users[nr_users], user);
             nr_users++;
 
             if (nr_users != 1)
@@ -158,6 +195,23 @@ void add_user()
 
 void move_task()
 {
+    int id, i/*, act*/;
+    char user[MAX_L_USERS], activity[ACTIVITY_SIZE];
+    scanf("%d %s %s", &id, user, activity);
+    for (i = 0; i < nr_activities; i++)
+    {
+        if(strcmp(activity, activities[i])){
+            /*act = i;*/  
+        }
+    }
+    for (i = 0; i < nr_tasks; i++)
+    {
+        if (id == tasks[i].identifier)
+        {
+            current = tasks[i];
+            strcpy(current.user, user);
+        }
+    }
 }
 
 void menu()
@@ -192,6 +246,7 @@ a	adiciona uma atividade ou lista todas as atividades
         add_user();
         break;
     case 'm':
+        move_task();
         break;
     case 'd':
         break;
