@@ -216,7 +216,7 @@ void move_task()
 
     scanf("%d %s ", &id, user);
     fgets(activity, ACTIVITY_SIZE, stdin);
-    activity[strlen(activity) - 1] = '\0';  
+    activity[strlen(activity) - 1] = '\0';
 
     if (!strcmp(activity, DEFAULT_ACTIVITY))
     {
@@ -272,9 +272,13 @@ void move_task()
         return;
     }
 
+    if (!strcmp(tasks[act].activity, DEFAULT_ACTIVITY))
+    {
+        tasks[act].t_beginning = time;
+    }
+
     strcpy(tasks[act].user, user);
     strcpy(tasks[act].activity, activity);
-
 
     if (!strcmp(activity, FINAL_ACTIVITY))
     {
@@ -284,36 +288,26 @@ void move_task()
     }
 }
 
-void coloca_pos_time(struct task new_tasks[], struct task current, int count)
+void coloca_pos_time(struct task dest[], int count)
 {
-    int i = 0, c = 0, state = 0;
+    int i = 0, state = 0, dest_t = 0, current_t = 0;
+    struct task new_tasks[MAX_TASKS];
 
     for (i = 0; i <= count; i++)
     {
+        dest_t = dest[i].t_beginning;
+        current_t = current.t_beginning;
+
         if (state == 0)
         {
             if (i < count)
             {
-                if (tasks[i].t_beginning < current.t_beginning)
+                if (dest_t <= current_t)
                 {
-                    c = 0;
-                    new_tasks[i] = tasks[i];
+                    new_tasks[i] = dest[i];
                 }
-                else if (tasks[i].t_beginning == current.t_beginning)
+                else if (dest_t > current_t)
                 {
-                    c++;
-                    i--;
-                }
-                else if (tasks[i].t_beginning > current.t_beginning)
-                {
-                    new_tasks[i] = current;
-                    state = 1;
-                    i--;
-                }
-                else
-                {
-                    new_tasks[i] = tasks[i];
-                    i++;
                     new_tasks[i] = current;
                     state = 1;
                 }
@@ -325,42 +319,52 @@ void coloca_pos_time(struct task new_tasks[], struct task current, int count)
         }
         else
         {
-            new_tasks[i + 1] = tasks[i];
+            new_tasks[i] = dest[i - 1];
         }
+    }
+    for (i = 0; i <= count; i++)
+    {
+        dest[i] = new_tasks[i];
     }
 }
 
-void list_act(){
+void list_act()
+{
     int i = 0, count = 0, found = 0;
     char activity[ACTIVITY_SIZE];
-    struct task list[MAX_TASKS];
+    struct task list[MAX_TASKS] = {0};
 
     getchar();
     fgets(activity, ACTIVITY_SIZE, stdin);
-    activity[strlen(activity)-1] = '\0';
+    activity[strlen(activity) - 1] = '\0';
 
-    for (i = 0; i < nr_activities; i++){
-        if(!strcmp(activity, activities[i])){
+    for (i = 0; i < nr_activities; i++)
+    {
+        if (!strcmp(activity, activities[i]))
+        {
             found = 1;
             break;
         }
     }
 
-    if (found == 0){
+    if (found == 0)
+    {
         printf("no such activity\n");
         return;
     }
 
-        for (i = 0; i < nr_tasks; i++)
+    for (i = 0; i < nr_tasks; i++)
+    {
+        if (!strcmp(tasks[i].activity, activity))
         {
-            if (!strcmp(tasks[i].activity, activity))
-            {
-                coloca_pos_time(list, tasks[i], count);
-                count++;
-            }
+            current = tasks[i];
+            coloca_pos_time(list, count);
+            count++;
         }
+    }
 
-    for (i = 0; i < count;i++){
+    for (i = 0; i < count; i++)
+    {
         printf("%d %d %s", list[i].identifier, list[i].t_beginning, list[i].description);
     }
 }
