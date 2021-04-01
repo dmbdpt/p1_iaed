@@ -3,17 +3,17 @@
 #include <string.h>
 
 #define DESCR_SIZE 51
-#define MAX_TASKS 10
+#define MAX_TASKS 10001
 #define ACTIVITY_SIZE 20
-#define USER_SIZE 10
+#define MAX_ACTIVITIES 10
 #define DEFAULT_ACTIVITY "TO DO"
 #define FINAL_ACTIVITY "DONE"
 #define INIT_TIME 0
 #define MAX_USERS 50
-#define MAX_L_USERS 20
+#define USER_SIZE 20
 
 int time, nr_tasks = 0, nr_users = 0, nr_activities = 3;
-char option, activities[][ACTIVITY_SIZE] = {"TO DO", "IN PROGRESS", "DONE"}, users[MAX_USERS][MAX_L_USERS];
+char option, activities[MAX_ACTIVITIES][ACTIVITY_SIZE] = {"TO DO", "IN PROGRESS", "DONE"}, users[MAX_USERS][USER_SIZE];
 
 struct task
 {
@@ -83,7 +83,7 @@ void add_task()
 {
     int i;
 
-    if (nr_tasks + 1 > MAX_TASKS)
+    if (nr_tasks + 1 == MAX_TASKS)
     {
         printf("too many tasks\n");
         return;
@@ -177,7 +177,7 @@ void list_users()
 
 void add_user()
 {
-    char user[MAX_L_USERS];
+    char user[USER_SIZE];
     int i;
 
     if (nr_users < MAX_USERS)
@@ -212,7 +212,7 @@ void add_user()
 void move_task()
 {
     int id, i, found = 0, act, duration, slack;
-    char user[MAX_L_USERS], activity[ACTIVITY_SIZE];
+    char user[USER_SIZE], activity[ACTIVITY_SIZE];
 
     scanf("%d %s ", &id, user);
     fgets(activity, ACTIVITY_SIZE, stdin);
@@ -282,8 +282,8 @@ void move_task()
 
     if (!strcmp(activity, FINAL_ACTIVITY))
     {
-        duration = time - current.t_beginning;
-        slack = current.e_duration - duration;
+        duration = time - tasks[act].t_beginning;
+        slack = duration - tasks[act].e_duration;
         printf("duration=%d slack=%d\n", duration, slack);
     }
 }
@@ -369,6 +369,35 @@ void list_act()
     }
 }
 
+void activ()
+{
+    int i, size;
+    char activity[ACTIVITY_SIZE] = "\0";
+
+    if (getchar() == ' ')
+    {
+        fgets(activity, ACTIVITY_SIZE, stdin);
+        activity[strlen(activity) - 1] = '\0';
+        size = strlen(activity);
+        for (i = 0; i < size; i++)
+        {
+            if (activity[i] > 'Z' || activity[i] < 'A')
+            {
+                printf("invalid description\n");
+                return;
+            }
+        }
+
+        strcpy(activities[nr_activities], activity);
+        nr_activities++;
+        return;
+    }
+    for (i = 0; i < nr_activities; i++)
+    {
+        printf("%s\n", activities[i]);
+    }
+}
+
 void menu()
 {
     option = getchar();
@@ -406,6 +435,7 @@ a	adiciona uma atividade ou lista todas as atividades
         list_act();
         break;
     case 'a':
+        activ();
         break;
     }
     menu();
