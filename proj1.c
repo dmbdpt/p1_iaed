@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define DESCR_SIZE 51
-#define MAX_TASKS 10001
+#define DESCR_SIZE 50
+#define MAX_TASKS 10000
 #define ACTIVITY_SIZE 20
 #define MAX_ACTIVITIES 10
 #define DEFAULT_ACTIVITY "TO DO"
@@ -13,25 +13,26 @@
 #define USER_SIZE 20
 
 int time, nr_tasks = 0, nr_users = 0, nr_activities = 3;
-char option, activities[MAX_ACTIVITIES][ACTIVITY_SIZE] = {"TO DO", "IN PROGRESS", "DONE"}, users[MAX_USERS][USER_SIZE];
+char option, activities[MAX_ACTIVITIES + 1][ACTIVITY_SIZE + 1] = {"TO DO", "IN PROGRESS", "DONE"},
+                                                            users[MAX_USERS + 1][USER_SIZE + 1];
 
 struct task
 {
     int identifier;
-    char description[DESCR_SIZE];
-    char user[USER_SIZE];
+    char description[DESCR_SIZE + 1];
+    char user[USER_SIZE + 1];
     char activity[ACTIVITY_SIZE];
     int e_duration;
     int t_beginning;
 };
 
-struct task tasks[MAX_TASKS];
+struct task tasks[MAX_TASKS + 1];
 struct task current;
 
 void coloca_pos_desc(struct task current)
 {
     int i = 0, c = 0, state = 0;
-    struct task new_tasks[MAX_TASKS];
+    struct task new_tasks[MAX_TASKS + 1];
 
     for (i = 0; i <= nr_tasks; i++)
     {
@@ -83,14 +84,14 @@ void add_task()
 {
     int i;
 
-    if (nr_tasks + 1 == MAX_TASKS)
+    if (nr_tasks == MAX_TASKS)
     {
         printf("too many tasks\n");
         return;
     }
 
     scanf(" %d ", &current.e_duration);
-    fgets(current.description, DESCR_SIZE, stdin);
+    fgets(current.description, DESCR_SIZE + 1, stdin);
 
     for (i = 0; i < nr_tasks; i++)
     {
@@ -177,7 +178,7 @@ void list_users()
 
 void add_user()
 {
-    char user[USER_SIZE];
+    char user[USER_SIZE + 1];
     int i;
 
     if (nr_users < MAX_USERS)
@@ -212,7 +213,7 @@ void add_user()
 void move_task()
 {
     int id, i, found = 0, act, duration, slack;
-    char user[USER_SIZE], activity[ACTIVITY_SIZE];
+    char user[USER_SIZE + 1], activity[ACTIVITY_SIZE];
 
     scanf("%d %s ", &id, user);
     fgets(activity, ACTIVITY_SIZE, stdin);
@@ -291,7 +292,7 @@ void move_task()
 void coloca_pos_time(struct task dest[], int count)
 {
     int i = 0, state = 0, dest_t = 0, current_t = 0;
-    struct task new_tasks[MAX_TASKS];
+    struct task new_tasks[MAX_TASKS + 1];
 
     for (i = 0; i <= count; i++)
     {
@@ -331,11 +332,11 @@ void coloca_pos_time(struct task dest[], int count)
 void list_act()
 {
     int i = 0, count = 0, found = 0;
-    char activity[ACTIVITY_SIZE];
-    struct task list[MAX_TASKS] = {0};
+    char activity[ACTIVITY_SIZE + 1];
+    struct task list[MAX_TASKS + 1] = {0};
 
     getchar();
-    fgets(activity, ACTIVITY_SIZE, stdin);
+    fgets(activity, ACTIVITY_SIZE + 1, stdin);
     activity[strlen(activity) - 1] = '\0';
 
     for (i = 0; i < nr_activities; i++)
@@ -372,18 +373,36 @@ void list_act()
 void activ()
 {
     int i, size;
-    char activity[ACTIVITY_SIZE] = "\0";
+    char activity[ACTIVITY_SIZE + 1] = "\0";
 
     if (getchar() == ' ')
     {
-        fgets(activity, ACTIVITY_SIZE, stdin);
-        activity[strlen(activity) - 1] = '\0';
+        if (nr_activities == MAX_ACTIVITIES)
+        {
+            printf("too many activities\n");
+        }
+
+        fgets(activity, ACTIVITY_SIZE + 1, stdin);
         size = strlen(activity);
         for (i = 0; i < size; i++)
         {
-            if (activity[i] > 'Z' || activity[i] < 'A')
+            if (activity[i] == '\n')
+            {
+                activity[i] = '\0';
+                break;
+            }
+            if ((activity[i] > 'Z' || activity[i] < 'A') && activity[i] != ' ')
             {
                 printf("invalid description\n");
+                return;
+            }
+        }
+
+        for (i = 0; i < nr_activities; i++)
+        {
+            if (!strcmp(activity, activities[i]))
+            {
+                printf("duplicate activity\n");
                 return;
             }
         }
