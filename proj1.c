@@ -84,14 +84,15 @@ void add_task()
 {
     int i;
 
+    scanf(" %d ", &current.e_duration);
+    fgets(current.description, DESCR_SIZE + 1, stdin);
+    current.description[strcspn(current.description, "\n")] = 0;
+
     if (nr_tasks == MAX_TASKS)
     {
         printf("too many tasks\n");
         return;
     }
-
-    scanf(" %d ", &current.e_duration);
-    fgets(current.description, DESCR_SIZE + 1, stdin);
 
     for (i = 0; i < nr_tasks; i++)
     {
@@ -127,7 +128,7 @@ void list_tasks()
                 if (tasks[i].identifier == id)
                 {
                     current = tasks[i];
-                    printf("%d %s #%d %s", current.identifier, current.activity,
+                    printf("%d %s #%d %s\n", current.identifier, current.activity,
                            current.e_duration, current.description);
                     found++;
                     break;
@@ -145,7 +146,7 @@ void list_tasks()
         for (i = 0; i < nr_tasks; i++)
         {
             current = tasks[i];
-            printf("%d %s #%d %s", current.identifier, current.activity, current.e_duration,
+            printf("%d %s #%d %s\n", current.identifier, current.activity, current.e_duration,
                    current.description);
         }
     }
@@ -156,7 +157,7 @@ void step_forward()
     int dur = 0;
     char end;
 
-    if (scanf("%d%c", &dur, &end) == 2 && end == '\n' && dur > 0)
+    if (scanf("%d%c", &dur, &end) == 2 && end == '\n' && dur >= 0)
     {
         time += dur;
         printf("%d\n", time);
@@ -181,43 +182,44 @@ void add_user()
     char user[USER_SIZE + 1];
     int i;
 
-    if (nr_users < MAX_USERS)
+    if (getchar() == ' ')
     {
-        if (getchar() == ' ')
+        fscanf(stdin, "%s", user);
+        if (nr_users == MAX_USERS)
         {
-            fscanf(stdin, "%s", user);
-            for (i = 0; i < nr_users; i++)
+            printf("too many users\n");
+            return;
+        }
+        for (i = 0; i < nr_users; i++)
+        {
+            if (!strcmp(user, users[i]))
             {
-                if (!strcmp(user, users[i]))
-                {
-                    printf("user already exists\n");
-                    return;
-                }
-            }
-
-            strcpy(users[nr_users], user);
-            nr_users++;
-
-            if (nr_users != 1)
-            {
-                list_users();
+                printf("user already exists\n");
+                return;
             }
         }
+
+        strcpy(users[nr_users], user);
+        nr_users++;
     }
+
     else
     {
-        printf("too many users\n");
+        list_users();
     }
 }
 
 void move_task()
 {
     int id, i, found = 0, act, duration, slack;
-    char user[USER_SIZE + 1], activity[ACTIVITY_SIZE];
+    char user[USER_SIZE + 1], activity[ACTIVITY_SIZE + 1];
 
     scanf("%d %s ", &id, user);
-    fgets(activity, ACTIVITY_SIZE, stdin);
-    activity[strlen(activity) - 1] = '\0';
+    fgets(activity, ACTIVITY_SIZE + 1, stdin);
+    if (activity[strlen(activity) - 1] == '\n')
+    {
+        activity[strlen(activity) - 1] = '\0';
+    }
 
     if (!strcmp(activity, DEFAULT_ACTIVITY))
     {
@@ -366,7 +368,7 @@ void list_act()
 
     for (i = 0; i < count; i++)
     {
-        printf("%d %d %s", list[i].identifier, list[i].t_beginning, list[i].description);
+        printf("%d %d %s\n", list[i].identifier, list[i].t_beginning, list[i].description);
     }
 }
 
@@ -377,12 +379,13 @@ void activ()
 
     if (getchar() == ' ')
     {
+
+        fgets(activity, ACTIVITY_SIZE + 1, stdin);
         if (nr_activities == MAX_ACTIVITIES)
         {
             printf("too many activities\n");
         }
 
-        fgets(activity, ACTIVITY_SIZE + 1, stdin);
         size = strlen(activity);
         for (i = 0; i < size; i++)
         {
@@ -391,7 +394,7 @@ void activ()
                 activity[i] = '\0';
                 break;
             }
-            if ((activity[i] > 'Z' || activity[i] < 'A') && activity[i] != ' ')
+            if (activity[i] > 'a' && activity[i] < 'z')
             {
                 printf("invalid description\n");
                 return;
