@@ -291,44 +291,16 @@ void move_task()
     }
 }
 
-void coloca_pos_time(struct task dest[], int count)
+void coloca_pos_time(struct task dest[])
 {
     int i = 0, state = 0, dest_t = 0, current_t = 0;
     struct task new_tasks[MAX_TASKS + 1];
 
-    for (i = 0; i <= count; i++)
-    {
-        dest_t = dest[i].t_beginning;
-        current_t = current.t_beginning;
+    for (i = 0; i < nr_tasks; i++){
+        new_tasks[i] = tasks[i];
+    }
 
-        if (state == 0)
-        {
-            if (i < count)
-            {
-                if (dest_t <= current_t)
-                {
-                    new_tasks[i] = dest[i];
-                }
-                else if (dest_t > current_t)
-                {
-                    new_tasks[i] = current;
-                    state = 1;
-                }
-            }
-            else
-            {
-                new_tasks[i] = current;
-            }
-        }
-        else
-        {
-            new_tasks[i] = dest[i - 1];
-        }
-    }
-    for (i = 0; i <= count; i++)
-    {
-        dest[i] = new_tasks[i];
-    }
+        mergeSort(new_tasks, 0, sizeof(new_tasks) - 1);
 }
 
 void list_act()
@@ -341,33 +313,27 @@ void list_act()
     fgets(activity, ACTIVITY_SIZE + 1, stdin);
     activity[strlen(activity) - 1] = '\0';
 
-    for (i = 0; i < nr_activities; i++)
-    {
-        if (!strcmp(activity, activities[i]))
-        {
+    for (i = 0; i < nr_activities; i++){
+        if (!strcmp(activity, activities[i])){
             found = 1;
             break;
         }
     }
 
-    if (found == 0)
-    {
+    if (found == 0){
         printf("no such activity\n");
         return;
     }
 
-    for (i = 0; i < nr_tasks; i++)
-    {
-        if (!strcmp(tasks[i].activity, activity))
-        {
+    for (i = 0; i < nr_tasks; i++){
+        if (!strcmp(tasks[i].activity, activity)){
             current = tasks[i];
-            coloca_pos_time(list, count);
+            coloca_pos_time(list);
             count++;
         }
     }
 
-    for (i = 0; i < count; i++)
-    {
+    for (i = 0; i < count; i++){
         printf("%d %d %s\n", list[i].identifier, list[i].t_beginning, list[i].description);
     }
 }
