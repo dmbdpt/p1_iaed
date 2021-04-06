@@ -291,23 +291,41 @@ void move_task()
     }
 }
 
-void coloca_pos_time(struct task dest[])
-{
-    int i = 0, state = 0, dest_t = 0, current_t = 0;
-    struct task new_tasks[MAX_TASKS + 1];
+void change(struct task list[], struct task el1, struct task el2, int i, int j){
+    list[i] = el2;
+    list[j] = el1;
+}
 
-    for (i = 0; i < nr_tasks; i++){
-        new_tasks[i] = tasks[i];
+int partition(struct task list[], int l, int h){
+    struct task piv = list[h];
+    int i, j;
+    i = l - 1;
+    for (j = l; j <= h - 1;j++){
+        if(list[j].t_beginning < piv.t_beginning){
+            i++;
+            change(list, list[i], list[j], i, j);
+        }
     }
+    change(list, list[i+1], list[h], i+1, h);
+    return (i+1);
+}
 
-        mergeSort(new_tasks, 0, sizeof(new_tasks) - 1);
+void coloca_pos_time(struct task list[], int l, int h){
+    if(l < h){
+        int part = partition(list, l, h);
+        coloca_pos_time(list, l, part-1);
+        coloca_pos_time(list, part+1, h);
+    }
 }
 
 void list_act()
 {
-    int i = 0, count = 0, found = 0;
+    int i = 0, found = 0;
     char activity[ACTIVITY_SIZE + 1];
     struct task list[MAX_TASKS + 1] = {0};
+    for (i = 0; i < nr_tasks;i++){
+        list[i] = tasks[i];
+    }
 
     getchar();
     fgets(activity, ACTIVITY_SIZE + 1, stdin);
@@ -325,16 +343,13 @@ void list_act()
         return;
     }
 
-    for (i = 0; i < nr_tasks; i++){
-        if (!strcmp(tasks[i].activity, activity)){
-            current = tasks[i];
-            coloca_pos_time(list);
-            count++;
-        }
-    }
+    coloca_pos_time(list, 0, nr_tasks - 1);
 
-    for (i = 0; i < count; i++){
+
+    for (i = 0; i < nr_tasks; i++){
+        if (!strcmp(list[i].activity,activity)){
         printf("%d %d %s\n", list[i].identifier, list[i].t_beginning, list[i].description);
+        }
     }
 }
 
