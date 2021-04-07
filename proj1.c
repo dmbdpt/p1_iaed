@@ -291,64 +291,80 @@ void move_task()
     }
 }
 
-void change(struct task list[], struct task el1, struct task el2, int i, int j){
-    list[i] = el2;
+void change(struct task list[], struct task el1, int i, int j)
+{
+    list[i] = list[j];
     list[j] = el1;
 }
 
-int partition(struct task list[], int l, int h){
+int partition(struct task list[], int l, int h)
+{
     struct task piv = list[h];
     int i, j;
     i = l - 1;
-    for (j = l; j <= h - 1;j++){
-        if(list[j].t_beginning < piv.t_beginning){
+    for (j = l; j <= h - 1; j++)
+    {
+        if (list[j].t_beginning < piv.t_beginning)
+        {
             i++;
-            change(list, list[i], list[j], i, j);
+            change(list, list[i], i, j);
         }
     }
-    change(list, list[i+1], list[h], i+1, h);
-    return (i+1);
+    change(list, list[i + 1], i + 1, h);
+    return (i + 1);
 }
 
-void coloca_pos_time(struct task list[], int l, int h){
-    if(l < h){
+void coloca_pos_time(struct task list[], int l, int h)
+{
+    if (l < h)
+    {
         int part = partition(list, l, h);
-        coloca_pos_time(list, l, part-1);
-        coloca_pos_time(list, part+1, h);
+        coloca_pos_time(list, l, part - 1);
+        coloca_pos_time(list, part + 1, h);
     }
 }
 
 void list_act()
 {
-    int i = 0, found = 0;
+    int i = 0, j = 0, found = 0;
     char activity[ACTIVITY_SIZE + 1];
     struct task list[MAX_TASKS + 1] = {0};
-    for (i = 0; i < nr_tasks;i++){
-        list[i] = tasks[i];
-    }
 
     getchar();
     fgets(activity, ACTIVITY_SIZE + 1, stdin);
     activity[strlen(activity) - 1] = '\0';
 
-    for (i = 0; i < nr_activities; i++){
-        if (!strcmp(activity, activities[i])){
+    for (i = 0; i < nr_activities; i++)
+    {
+        if (!strcmp(activity, activities[i]))
+        {
             found = 1;
             break;
         }
     }
 
-    if (found == 0){
+    if (found == 0)
+    {
         printf("no such activity\n");
         return;
     }
 
+    for (i = 0; i < nr_tasks; i++)
+    {
+        if (!strcmp(tasks[i].activity, activity))
+        {
+            list[j] = tasks[i];
+            j++;
+        }
+    }
+
     coloca_pos_time(list, 0, nr_tasks - 1);
 
-
-    for (i = 0; i < nr_tasks; i++){
-        if (!strcmp(list[i].activity,activity)){
-        printf("%d %d %s\n", list[i].identifier, list[i].t_beginning, list[i].description);
+    for (i = 0; i < nr_tasks; i++)
+    {
+        if (!strcmp(list[i].activity, activity))
+        {
+            printf("%d %d %s\n", list[i].identifier, list[i].t_beginning, list[i].description);
         }
     }
 }
@@ -401,10 +417,9 @@ void activ()
     }
 }
 
-void menu()
+int main()
 {
-    option = getchar();
-
+    time = INIT_TIME;
     /*
 q	termina o programa
 t	adiciona uma nova tarefa ao sistema
@@ -415,39 +430,35 @@ m	move uma tarefa de uma atividade para outra
 d	lista todas as tarefas que estejam numa dada atividade
 a	adiciona uma atividade ou lista todas as atividades
 */
-    switch (option)
+    while (1)
     {
-    case 'q':
-        return;
-    case 't':
-        add_task();
-        break;
-    case 'l':
-        list_tasks();
-        break;
-    case 'n':
-        step_forward();
-        break;
-    case 'u':
-        add_user();
-        break;
-    case 'm':
-        move_task();
-        break;
-    case 'd':
-        list_act();
-        break;
-    case 'a':
-        activ();
-        break;
+        option = getchar();
+        switch (option)
+        {
+        case 'q':
+            return 0;
+        case 't':
+            add_task();
+            break;
+        case 'l':
+            list_tasks();
+            break;
+        case 'n':
+            step_forward();
+            break;
+        case 'u':
+            add_user();
+            break;
+        case 'm':
+            move_task();
+            break;
+        case 'd':
+            list_act();
+            break;
+        case 'a':
+            activ();
+            break;
+        }
     }
-    menu();
-}
-
-int main()
-{
-    time = INIT_TIME;
-    menu();
-
     return 0;
 }
