@@ -420,10 +420,9 @@ void activ()
     }
 }
 
-void menu()
+int main()
 {
-    option = getchar();
-
+    time = INIT_TIME;
     /*
 q	termina o programa
 t	adiciona uma nova tarefa ao sistema
@@ -434,39 +433,35 @@ m	move uma tarefa de uma atividade para outra
 d	lista todas as tarefas que estejam numa dada atividade
 a	adiciona uma atividade ou lista todas as atividades
 */
-    switch (option)
+    while (1)
     {
-    case 'q':
-        return;
-    case 't':
-        add_task();
-        break;
-    case 'l':
-        list_tasks();
-        break;
-    case 'n':
-        step_forward();
-        break;
-    case 'u':
-        add_user();
-        break;
-    case 'm':
-        move_task();
-        break;
-    case 'd':
-        list_act();
-        break;
-    case 'a':
-        activ();
-        break;
+        option = getchar();
+        switch (option)
+        {
+        case 'q':
+            return 0;
+        case 't':
+            add_task();
+            break;
+        case 'l':
+            list_tasks();
+            break;
+        case 'n':
+            step_forward();
+            break;
+        case 'u':
+            add_user();
+            break;
+        case 'm':
+            move_task();
+            break;
+        case 'd':
+            list_act();
+            break;
+        case 'a':
+            activ();
+            break;
+        }
     }
-    menu();
-}
-
-int main()
-{
-    time = INIT_TIME;
-    menu();
-
     return 0;
 }
