@@ -16,7 +16,7 @@ int time, nr_tasks = 0, nr_users = 0, nr_activities = 3;
 char option, activities[MAX_ACTIVITIES + 1][ACTIVITY_SIZE + 1] = {"TO DO", "IN PROGRESS", "DONE"},
                                                             users[MAX_USERS + 1][USER_SIZE + 1];
 
-struct task
+typedef struct Task
 {
     int identifier;
     char description[DESCR_SIZE + 1];
@@ -24,15 +24,15 @@ struct task
     char activity[ACTIVITY_SIZE];
     int e_duration;
     int t_beginning;
-};
+}Task;
 
-struct task tasks[MAX_TASKS + 1];
-struct task current;
+Task tasks[MAX_TASKS + 1];
+Task current;
 
-void coloca_pos_desc(struct task current)
+void coloca_pos_desc(Task current)
 {
     int i = 0, c = 0, state = 0;
-    struct task new_tasks[MAX_TASKS + 1];
+    Task new_tasks[MAX_TASKS + 1];
 
     for (i = 0; i <= nr_tasks; i++)
     {
@@ -116,7 +116,7 @@ void list_tasks()
 {
     int i, id = 0, found;
     char ch;
-    struct task current;
+    Task current;
 
     if ((ch = getchar()) == ' ')
     {
@@ -208,7 +208,6 @@ void add_user()
         list_users();
     }
 }
-
 void move_task()
 {
     int id, i, found = 0, act, duration, slack;
@@ -219,42 +218,6 @@ void move_task()
     if (activity[strlen(activity) - 1] == '\n')
     {
         activity[strlen(activity) - 1] = '\0';
-    }
-
-    if (!strcmp(activity, DEFAULT_ACTIVITY))
-    {
-        printf("task already started\n");
-        return;
-    }
-
-    for (i = 0; i < nr_activities; i++)
-    {
-        if (!strcmp(activity, activities[i]))
-        {
-            found = 1;
-        }
-    }
-
-    if (found == 0)
-    {
-        printf("no such activity\n");
-        return;
-    }
-
-    found = 0;
-
-    for (i = 0; i < nr_users; i++)
-    {
-        if (!strcmp(user, users[i]))
-        {
-            found = 1;
-        }
-    }
-
-    if (found == 0)
-    {
-        printf("no such user\n");
-        return;
     }
 
     found = 0;
@@ -272,6 +235,40 @@ void move_task()
     if (found == 0)
     {
         printf("no such task\n");
+        return;
+    }
+
+    if (!strcmp(activity, DEFAULT_ACTIVITY))
+    {
+        printf("task already started\n");
+        return;
+    }
+
+    for (i = 0; i < nr_activities; i++)
+    {
+        if (!strcmp(activity, activities[i]))
+        {
+            found++;
+        }
+    }
+
+    if (found == 1)
+    {
+        printf("no such activity\n");
+        return;
+    }
+
+    for (i = 0; i < nr_users; i++)
+    {
+        if (!strcmp(user, users[i]))
+        {
+            found++;
+        }
+    }
+
+    if (found == 2)
+    {
+        printf("no such user\n");
         return;
     }
 
@@ -294,15 +291,15 @@ void move_task()
     }
 }
 
-void change(struct task list1[], struct task el1, int i, int j)
+void swap(Task list1[], Task el1, int i, int j)
 {
     list1[i] = list1[j];
     list1[j] = el1;
 }
 
-int partition(struct task list1[], int l, int h)
+int partition(Task list1[], int l, int h)
 {
-    struct task piv = list1[h];
+    Task piv = list1[h];
     int i, j;
     i = l - 1;
     for (j = l; j <= h - 1; j++)
@@ -310,14 +307,14 @@ int partition(struct task list1[], int l, int h)
         if (list1[j].t_beginning <= piv.t_beginning)
         {
             i++;
-            change(list1, list1[i], i, j);
+            swap(list1, list1[i], i, j);
         }
     }
-    change(list1, list1[i + 1], i + 1, h);
+    swap(list1, list1[i + 1], i + 1, h);
     return (i + 1);
 }
 
-void coloca_pos_time(struct task list1[], int l, int h)
+void coloca_pos_time(Task list1[], int l, int h)
 {
     if (l < h)
     {
@@ -331,7 +328,7 @@ void list_act()
 {
     int i = 0, j = 0, found = 0;
     char activity[ACTIVITY_SIZE + 1];
-    struct task list[MAX_TASKS + 1] = {0};
+    Task list[MAX_TASKS + 1] = {0};
 
     getchar();
     fgets(activity, ACTIVITY_SIZE + 1, stdin);
