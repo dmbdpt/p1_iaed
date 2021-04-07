@@ -123,7 +123,7 @@ void list_tasks()
         while (scanf(" %d", &id))
         {
             found = 0;
-            for (i = 0; i < MAX_TASKS; i++)
+            for (i = 0; i < nr_tasks; i++)
             {
                 if (tasks[i].identifier == id)
                 {
@@ -275,52 +275,55 @@ void move_task()
         return;
     }
 
-    if (!strcmp(tasks[act].activity, DEFAULT_ACTIVITY))
+    if (strcmp(activity, DEFAULT_ACTIVITY))
     {
-        tasks[act].t_beginning = time;
-    }
+        if (!strcmp(tasks[act].activity, DEFAULT_ACTIVITY))
+        {
+            tasks[act].t_beginning = time;
+        }
 
-    strcpy(tasks[act].user, user);
-    strcpy(tasks[act].activity, activity);
+        strcpy(tasks[act].user, user);
 
-    if (!strcmp(activity, FINAL_ACTIVITY))
-    {
-        duration = time - tasks[act].t_beginning;
-        slack = duration - tasks[act].e_duration;
-        printf("duration=%d slack=%d\n", duration, slack);
+        if (!strcmp(activity, FINAL_ACTIVITY) && strcmp(tasks[act].activity, FINAL_ACTIVITY))
+        {
+            duration = time - tasks[act].t_beginning;
+            slack = duration - tasks[act].e_duration;
+            printf("duration=%d slack=%d\n", duration, slack);
+        }
+        strcpy(tasks[act].activity, activity);
     }
 }
 
-void change(struct task list[], struct task el1, int i, int j)
+void change(struct task list1[], struct task el1, int i, int j)
 {
-    list[i] = list[j];
-    list[j] = el1;
+    list1[i] = list1[j];
+    list1[j] = el1;
 }
 
-int partition(struct task list[], int l, int h)
+int partition(struct task list1[], int l, int h)
 {
-    struct task piv = list[h];
+    struct task piv = list1[h];
     int i, j;
     i = l - 1;
     for (j = l; j <= h - 1; j++)
     {
-        if (list[j].t_beginning < piv.t_beginning)
+        if (list1[j].t_beginning <= piv.t_beginning)
         {
             i++;
-            change(list, list[i], i, j);
+            change(list1, list1[i], i, j);
         }
     }
-    change(list, list[i + 1], i + 1, h);
+    change(list1, list1[i + 1], i + 1, h);
     return (i + 1);
 }
 
-void coloca_pos_time(struct task list[], int l, int h)
+void coloca_pos_time(struct task list1[], int l, int h)
 {
     if (l < h)
     {
-        int part = partition(list, l, h);
-        coloca_pos_time(list, l, part - 1);
-        coloca_pos_time(list, part + 1, h);
+        int part = partition(list1, l, h);
+        coloca_pos_time(list1, l, part - 1);
+        coloca_pos_time(list1, part + 1, h);
     }
 }
 
@@ -358,7 +361,7 @@ void list_act()
         }
     }
 
-    coloca_pos_time(list, 0, nr_tasks - 1);
+    coloca_pos_time(list, 0, j - 1);
 
     for (i = 0; i < nr_tasks; i++)
     {
@@ -391,7 +394,7 @@ void activ()
                 activity[i] = '\0';
                 break;
             }
-            if (activity[i] > 'a' && activity[i] < 'z')
+            if (activity[i] >= 'a' && activity[i] <= 'z')
             {
                 printf("invalid description\n");
                 return;
