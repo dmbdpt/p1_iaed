@@ -16,7 +16,7 @@ int time, nr_tasks = 0, nr_users = 0, nr_activities = 3;
 char option, activities[MAX_ACTIVITIES + 1][ACTIVITY_SIZE + 1] = {"TO DO", "IN PROGRESS", "DONE"},
                                                             users[MAX_USERS + 1][USER_SIZE + 1];
 
-struct task
+typedef struct Task
 {
     int identifier;
     char description[DESCR_SIZE + 1];
@@ -24,15 +24,15 @@ struct task
     char activity[ACTIVITY_SIZE];
     int e_duration;
     int t_beginning;
-};
+}Task;
 
-struct task tasks[MAX_TASKS + 1];
-struct task current;
+Task tasks[MAX_TASKS + 1];
+Task current;
 
-void coloca_pos_desc(struct task current)
+void coloca_pos_desc(Task current)
 {
     int i = 0, c = 0, state = 0;
-    struct task new_tasks[MAX_TASKS + 1];
+    Task new_tasks[MAX_TASKS + 1];
 
     for (i = 0; i <= nr_tasks; i++)
     {
@@ -116,7 +116,7 @@ void list_tasks()
 {
     int i, id = 0, found;
     char ch;
-    struct task current;
+    Task current;
 
     if ((ch = getchar()) == ' ')
     {
@@ -291,10 +291,10 @@ void move_task()
     }
 }
 
-void coloca_pos_time(struct task dest[], int count)
+void coloca_pos_time(Task dest[], int count)
 {
     int i = 0, state = 0, dest_t = 0, current_t = 0;
-    struct task new_tasks[MAX_TASKS + 1];
+    Task new_tasks[MAX_TASKS + 1];
 
     for (i = 0; i <= count; i++)
     {
@@ -335,7 +335,7 @@ void list_act()
 {
     int i = 0, count = 0, found = 0;
     char activity[ACTIVITY_SIZE + 1];
-    struct task list[MAX_TASKS + 1] = {0};
+    Task list[MAX_TASKS + 1] = {0};
 
     getchar();
     fgets(activity, ACTIVITY_SIZE + 1, stdin);
