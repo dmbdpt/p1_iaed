@@ -335,7 +335,7 @@ void list_act()
 {
     int i = 0, count = 0, found = 0;
     char activity[ACTIVITY_SIZE + 1];
-    Task list[MAX_TASKS + 1] = {0};
+    Task list[MAX_TASKS + 1];
 
     getchar();
     fgets(activity, ACTIVITY_SIZE + 1, stdin);
@@ -375,7 +375,7 @@ void list_act()
 void activ()
 {
     int i, size;
-    char activity[ACTIVITY_SIZE + 1] = "\0";
+    char activity[ACTIVITY_SIZE + 1];
 
     if (getchar() == ' ')
     {
@@ -423,16 +423,7 @@ void activ()
 int main()
 {
     time = INIT_TIME;
-    /*
-q	termina o programa
-t	adiciona uma nova tarefa ao sistema
-l	lista as tarefas
-n	avança o tempo do sistema
-u	adiciona um utilizador ou lista todos os utilizadores
-m	move uma tarefa de uma atividade para outra
-d	lista todas as tarefas que estejam numa dada atividade
-a	adiciona uma atividade ou lista todas as atividades
-*/
+
     while (1)
     {
         option = getchar();
