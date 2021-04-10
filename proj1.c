@@ -104,7 +104,7 @@ void list_tasks()
         while (scanf(" %d", &id))
         {
             found = 0;
-            for (i = 0; i < MAX_TASKS; i++)
+            for (i = 0; i < nr_tasks; i++)
             {
                 if (tasks[i].identifier == id)
                 {
@@ -202,22 +202,6 @@ void move_task()
         activity[strlen(activity) - 1] = '\0';
     }
 
-    for (i = 0; i < nr_activities; i++)
-    {
-        if (!strcmp(activity, activities[i]))
-        {
-            found = 1;
-        }
-    }
-
-    if (found == 0)
-    {
-        printf("no such activity\n");
-        return;
-    }
-
-    found = 0;
-
     for (i = 0; i < nr_tasks; i++)
     {
         if (id == tasks[i].identifier)
@@ -234,7 +218,7 @@ void move_task()
         return;
     }
 
-        if (!strcmp(activity, DEFAULT_ACTIVITY))
+    if (!strcmp(activity, DEFAULT_ACTIVITY))
     {
         printf("task already started\n");
         return;
@@ -256,20 +240,37 @@ void move_task()
         return;
     }
 
+    found = 0;
+
+    for (i = 0; i < nr_activities; i++)
+    {
+        if (!strcmp(activity, activities[i]))
+        {
+            found = 1;
+        }
+    }
+
+    if (found == 0)
+    {
+        printf("no such activity\n");
+        return;
+    }
+
     if (!strcmp(tasks[act].activity, DEFAULT_ACTIVITY))
     {
         tasks[act].t_beginning = time;
     }
 
     strcpy(tasks[act].user, user);
-    strcpy(tasks[act].activity, activity);
 
-    if (!strcmp(activity, FINAL_ACTIVITY))
+    if (!strcmp(activity, FINAL_ACTIVITY) && strcmp(tasks[act].activity, FINAL_ACTIVITY))
     {
         duration = time - tasks[act].t_beginning;
         slack = duration - tasks[act].e_duration;
         printf("duration=%d slack=%d\n", duration, slack);
     }
+        strcpy(tasks[act].activity, activity);
+
 }
 
 void coloca_pos_time(Task dest[], int count)
@@ -375,7 +376,7 @@ void activ()
                 activity[i] = '\0';
                 break;
             }
-            if (activity[i] > 'a' && activity[i] < 'z')
+            if (activity[i] >= 'a' && activity[i] <= 'z')
             {
                 printf("invalid description\n");
                 return;
