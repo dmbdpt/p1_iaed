@@ -24,59 +24,40 @@ typedef struct Task
     char activity[ACTIVITY_SIZE];
     int e_duration;
     int t_beginning;
-}Task;
+} Task;
 
 Task tasks[MAX_TASKS + 1];
 Task current;
 
 void coloca_pos_desc(Task current)
 {
-    int i = 0, c = 0, state = 0;
-    Task new_tasks[MAX_TASKS + 1];
-
+    int i = 0, state = 0;
+    Task aux;
     for (i = 0; i <= nr_tasks; i++)
     {
-        if (state == 0)
+        if (!state)
         {
             if (i < nr_tasks)
             {
-                if (tasks[i].description[c] < current.description[c])
+                if (strcmp(tasks[i].description, current.description) > 0)
                 {
-                    c = 0;
-                    new_tasks[i] = tasks[i];
-                }
-                else if (tasks[i].description[c] == current.description[c])
-                {
-                    c++;
-                    i--;
-                }
-                else if (tasks[i].description[c] > current.description[c])
-                {
-                    new_tasks[i] = current;
-                    state = 1;
-                    i--;
-                }
-                else
-                {
-                    new_tasks[i] = tasks[i];
-                    i++;
-                    new_tasks[i] = current;
+                    aux = tasks[i];
+                    tasks[i] = current;
                     state = 1;
                 }
             }
             else
             {
-                new_tasks[i] = current;
+                tasks[i] = current;
+                break;
             }
         }
         else
         {
-            new_tasks[i + 1] = tasks[i];
+            current = tasks[i];
+            tasks[i] = aux;
+            aux = current;
         }
-    }
-    for (i = 0; i <= nr_tasks; i++)
-    {
-        tasks[i] = new_tasks[i];
     }
 }
 
@@ -221,12 +202,6 @@ void move_task()
         activity[strlen(activity) - 1] = '\0';
     }
 
-    if (!strcmp(activity, DEFAULT_ACTIVITY))
-    {
-        printf("task already started\n");
-        return;
-    }
-
     for (i = 0; i < nr_activities; i++)
     {
         if (!strcmp(activity, activities[i]))
@@ -238,22 +213,6 @@ void move_task()
     if (found == 0)
     {
         printf("no such activity\n");
-        return;
-    }
-
-    found = 0;
-
-    for (i = 0; i < nr_users; i++)
-    {
-        if (!strcmp(user, users[i]))
-        {
-            found = 1;
-        }
-    }
-
-    if (found == 0)
-    {
-        printf("no such user\n");
         return;
     }
 
@@ -272,6 +231,28 @@ void move_task()
     if (found == 0)
     {
         printf("no such task\n");
+        return;
+    }
+
+        if (!strcmp(activity, DEFAULT_ACTIVITY))
+    {
+        printf("task already started\n");
+        return;
+    }
+
+    found = 0;
+
+    for (i = 0; i < nr_users; i++)
+    {
+        if (!strcmp(user, users[i]))
+        {
+            found = 1;
+        }
+    }
+
+    if (found == 0)
+    {
+        printf("no such user\n");
         return;
     }
 
