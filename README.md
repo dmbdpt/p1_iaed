@@ -1,6 +1,6 @@
 # Projeto 1 - IAED
 
-## Right Now -> Comentar
+## Right Now -> Acabado!! 🎉🎉
 
 | Teste |         Estado          |   Função    |
 | :---: | :---------------------: | :---------: |
@@ -46,4 +46,4 @@ FINISHED:
 - [x] Utilizadores
 - [x] Atividades
 - [x] Gestão
-- [ ] Detalhes
+- [x] Detalhes
