@@ -3,7 +3,7 @@
 #include <string.h>
 
 /* General defines */
-#define DESCR_SIZE 50
+#define TASK_DESCR_SIZE 50
 #define MAX_TASKS 10000
 #define ACTIVITY_SIZE 20
 #define MAX_ACTIVITIES 10
@@ -45,28 +45,26 @@
 #define ERROR_TM_ACT "too many activities\n"
 
 /* Sorting Macros */
-#define key(A)(A)
-#define less(A, B)(key(A) < key(B))
+#define key(A) (A)
+#define less(A, B) (key(A) < key(B))
 
 int time, nr_tasks = 0, nr_users = 0, nr_activities = 3;
 char option,
-activities[MAX_ACTIVITIES + 1]
-    [ACTIVITY_SIZE + 1] = {
-        "TO DO",
-        "IN PROGRESS",
-        "DONE"
-    },
-    users[MAX_USERS + 1][USER_SIZE + 1];
+    activities[MAX_ACTIVITIES + 1]
+              [ACTIVITY_SIZE + 1] = {
+                  "TO DO",
+                  "IN PROGRESS",
+                  "DONE"},
+                               users[MAX_USERS + 1][USER_SIZE + 1];
 
 typedef struct Task {
     int identifier;
-    char description[DESCR_SIZE + 1];
+    char description[TASK_DESCR_SIZE + 1];
     char user[USER_SIZE + 1];
     char activity[ACTIVITY_SIZE];
     int e_duration;
     int t_beginning;
-}
-Task;
+} Task;
 
 Task tasks[MAX_TASKS + 1];
 Task current;
@@ -82,9 +80,9 @@ void merge_time(Task a[], int l, int m, int r) {
         if (i > m)
             a[k] = aux[j--];
         else if (aux[j].t_beginning < aux[i].t_beginning)
-        a[k] = aux[j--];
-    else
-        a[k] = aux[i++];
+            a[k] = aux[j--];
+        else
+            a[k] = aux[i++];
 }
 
 void merge_desc(Task a[], int l, int m, int r) {
@@ -114,8 +112,8 @@ void sort(Task a[], int l, int r, int type) {
 
 void add_task() {
     int i;
-    scanf(" %d ", & current.e_duration);
-    fgets(current.description, DESCR_SIZE + 1, stdin);
+    scanf(" %d ", &current.e_duration);
+    fgets(current.description, TASK_DESCR_SIZE + 1, stdin);
     current.description[strcspn(current.description, "\n")] = 0;
 
     if (nr_tasks == MAX_TASKS) {
@@ -144,13 +142,13 @@ void list_tasks() {
     char ch;
 
     if ((ch = getchar()) == ' ') {
-        while (scanf(" %d", & id)) {
+        while (scanf(" %d", &id)) {
             found = 0;
             for (i = 0; i < nr_tasks; i++) {
                 if (tasks[i].identifier == id) {
                     current = tasks[i];
                     printf(LIST_TASK, current.identifier, current.activity,
-                        current.e_duration, current.description);
+                           current.e_duration, current.description);
                     found++;
                     break;
                 }
@@ -164,7 +162,7 @@ void list_tasks() {
         for (i = 0; i < nr_tasks; i++) {
             current = tasks[i];
             printf(LIST_TASK, current.identifier, current.activity,
-                current.e_duration, current.description);
+                   current.e_duration, current.description);
         }
     }
 }
@@ -173,7 +171,7 @@ void step_forward() {
     int dur = 0;
     char end;
 
-    if (scanf("%d%c", & dur, & end) == 2 && end == '\n' && dur >= 0) {
+    if (scanf("%d%c", &dur, &end) == 2 && end == '\n' && dur >= 0) {
         time += dur;
         printf(PRINT_TIME, time);
     } else {
@@ -216,7 +214,7 @@ void move_task() {
     int id, i, found = 0, act, duration, slack;
     char user[USER_SIZE + 1], activity[ACTIVITY_SIZE + 1];
 
-    scanf("%d %s ", & id, user);
+    scanf("%d %s ", &id, user);
     fgets(activity, ACTIVITY_SIZE + 1, stdin);
     if (activity[strlen(activity) - 1] == '\n') {
         activity[strlen(activity) - 1] = '\0';
@@ -314,11 +312,11 @@ void list_act() {
 
     for (i = 0; i < count; i++) {
         printf(VALID_LIST_ACT, list[i].identifier, list[i].t_beginning,
-            list[i].description);
+               list[i].description);
     }
 }
 
-void activ() {
+void add_activ() {
     int i, size;
     char activity[ACTIVITY_SIZE + 1];
 
@@ -326,18 +324,19 @@ void activ() {
         fgets(activity, ACTIVITY_SIZE + 1, stdin);
         if (nr_activities == MAX_ACTIVITIES) {
             printf(ERROR_TM_ACT);
+            return;
         }
 
         size = strlen(activity);
         for (i = 0; i < size; i++) {
-            if (activity[i] == '\n') {
-                activity[i] = '\0';
-                break;
-            }
             if (activity[i] >= 'a' && activity[i] <= 'z') {
                 printf(ERROR_INV_DESC);
                 return;
             }
+        }
+
+        if (activity[size - 1] == '\n') {
+            activity[size - 1] = '\0';
         }
 
         for (i = 0; i < nr_activities; i++) {
@@ -362,29 +361,29 @@ int main() {
     while (1) {
         option = getchar();
         switch (option) {
-        case 'q':
-            return 0;
-        case 't':
-            add_task();
-            break;
-        case 'l':
-            list_tasks();
-            break;
-        case 'n':
-            step_forward();
-            break;
-        case 'u':
-            add_user();
-            break;
-        case 'm':
-            move_task();
-            break;
-        case 'd':
-            list_act();
-            break;
-        case 'a':
-            activ();
-            break;
+            case 'q':
+                return 0;
+            case 't':
+                add_task();
+                break;
+            case 'l':
+                list_tasks();
+                break;
+            case 'n':
+                step_forward();
+                break;
+            case 'u':
+                add_user();
+                break;
+            case 'm':
+                move_task();
+                break;
+            case 'd':
+                list_act();
+                break;
+            case 'a':
+                add_activ();
+                break;
         }
     }
     return 0;
