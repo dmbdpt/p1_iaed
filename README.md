@@ -1,6 +1,6 @@
 # Projeto 1 - IAED
 
-## Right Now -> Testes ¯\_(ツ)_/¯ 
+## Right Now -> Comentar
 
 | Teste |         Estado          |   Função    |
 | :---: | :---------------------: | :---------: |
