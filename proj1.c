@@ -25,6 +25,7 @@
 
 /* String defines (Errors - General) */
 #define ERROR_INV_TIME "invalid time\n"
+#define ERROR_INV_DUR "invalid duration\n"
 #define ERROR_INV_DESC "invalid description\n"
 #define ERROR_TASK_AS "task already started\n"
 
@@ -128,6 +129,11 @@ void add_task() {
         }
     }
 
+    if (current.e_duration <= 0) {
+        printf(ERROR_INV_DUR);
+        return;
+    }
+
     strcpy(current.activity, DEFAULT_ACTIVITY);
 
     current.identifier = nr_tasks + 1;
@@ -192,15 +198,17 @@ void add_user() {
 
     if (getchar() == ' ') {
         fscanf(stdin, "%s", user);
-        if (nr_users == MAX_USERS) {
-            printf(ERROR_TM_USERS);
-            return;
-        }
+
         for (i = 0; i < nr_users; i++) {
             if (!strcmp(user, users[i])) {
                 printf(ERROR_USER_AE);
                 return;
             }
+        }
+
+        if (nr_users == MAX_USERS) {
+            printf(ERROR_TM_USERS);
+            return;
         }
 
         strcpy(users[nr_users], user);
@@ -234,7 +242,8 @@ void move_task() {
     }
 
     if (!strcmp(activity, DEFAULT_ACTIVITY)) {
-        printf(ERROR_TASK_AS);
+        if (strcmp(tasks[act].activity, DEFAULT_ACTIVITY))
+            printf(ERROR_TASK_AS);
         return;
     }
 
